@@ -1,11 +1,9 @@
 ﻿using AventStack.ExtentReports;
 using AventStack.ExtentReports.Gherkin.Model;
 using AventStack.ExtentReports.Reporter;
-using OpenQA.Selenium;
-using SpecFlowProjectAutomation.Drivers;
-using TechTalk.SpecFlow;
 
-namespace SpecFlowProjectAutomation.Hooks
+
+namespace SpecFlowAPITests.Hooks
 {
     [Binding]
     public sealed class HooksInitialize
@@ -19,7 +17,7 @@ namespace SpecFlowProjectAutomation.Hooks
         public static void BeforeTestRun()
         {            
             string path = AppDomain.CurrentDomain.BaseDirectory.Replace("\\bin\\Debug", "");
-            string reportpath = path + "UIReport\\UITestsindex.html";
+            string reportpath = path + "APIReport\\APITestsindex.html";
             ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(reportpath);
             htmlReporter.Config.Theme = AventStack.ExtentReports.Reporter.Configuration.Theme.Standard;
             extent = new ExtentReports();
@@ -42,9 +40,7 @@ namespace SpecFlowProjectAutomation.Hooks
 
         [BeforeScenario]
         public void BeforeScenario()
-        {
-            SeleniumDriver seleniumDriver = new SeleniumDriver(_scenarioContext);
-            _scenarioContext.Set(seleniumDriver, "SeleniumDriver");
+        {           
             Console.WriteLine("BeforeScenario");
             scenario = featureName.CreateNode<Scenario>(ScenarioContext.Current.ScenarioInfo.Title);
 
@@ -103,8 +99,7 @@ namespace SpecFlowProjectAutomation.Hooks
         [AfterScenario]
         public void AfterScenario()
         {
-            Console.WriteLine("Quiting Selenium Driver");
-            _scenarioContext.Get<IWebDriver>("WebDriver").Quit();
+            Console.WriteLine("Quiting Selenium Driver");           
             //TODO: implement logic that has to run after executing each scenario
         }
 

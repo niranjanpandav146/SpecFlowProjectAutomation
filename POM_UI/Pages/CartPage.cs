@@ -19,8 +19,11 @@ namespace POM_UI.Pages
         }
 
         #region UI Objects
-        private By cart_items = By.XPath($"//div[@class='cart_item']");        
-        private By inventory_item_price = By.XPath($"//div[@class='inventory_item_price']");
+        
+        private IList<IWebElement> Cart_items => driver.FindElements(By.ClassName("cart_item"));
+        private IWebElement InventoryItemName => driver.FindElement(By.ClassName("inventory_item_name"));
+        private IWebElement inventory_item_price => driver.FindElement(By.ClassName("inventory_item_price"));
+        private IWebElement buttonCheckout => driver.FindElement(By.Id("checkout"));
         #endregion  
 
         #region Methods
@@ -30,13 +33,12 @@ namespace POM_UI.Pages
         public void VerifyItemOnCart(string text, string price)
         {
             string cartItemPrice = "";
-            IList<IWebElement> list = driver.FindElements(cart_items);
+            IList<IWebElement> list = Cart_items;
             foreach (IWebElement ls in list)
-            {
-                IWebElement inventory_item_name = driver.FindElement(By.XPath($"//div[@class='inventory_item_name']"));
-                if (inventory_item_name.Text.Contains(text))
+            {              
+                if (InventoryItemName.Text.Contains(text))
                 {
-                    cartItemPrice = inventory_item_name.FindElement(inventory_item_price).Text;
+                    cartItemPrice = inventory_item_price.Text;
                     break;
                 }
             }
@@ -48,7 +50,7 @@ namespace POM_UI.Pages
         //Method to click on checkout button
         public void clickonCheckout()
         {
-            common.ClickOnElement(driver.FindElement(By.Id("checkout")));
+            common.ClickOnElement(buttonCheckout);
         }
 
         #endregion

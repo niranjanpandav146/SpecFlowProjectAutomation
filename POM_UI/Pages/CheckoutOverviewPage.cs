@@ -19,8 +19,10 @@ namespace POM_UI.Pages
         }
 
         #region UI objects
-        private By cart_item_label = By.XPath($"//div[@class='cart_item_label']");
-        private By inventory_items_name = By.XPath($"//div[@class='inventory_item_name']");
+        private IList<IWebElement> LabelcartItemLabel => driver.FindElements(By.ClassName("cart_item_label"));
+        private IWebElement InventoryItemName => driver.FindElement(By.ClassName("inventory_item_name"));
+        private IWebElement priceValue => driver.FindElement(By.ClassName("item_pricebar"));
+        private IWebElement btnFinish => driver.FindElement(By.Id("finish"));
         #endregion
 
         #region Methods
@@ -29,18 +31,16 @@ namespace POM_UI.Pages
         public bool VerifyUserCheckoutOverview(string itemName, string price)
         {
             bool flag = false;
-            IList<IWebElement> list = driver.FindElements(cart_item_label);
+            IList<IWebElement> list = LabelcartItemLabel;
             foreach (IWebElement ls in list)
-            {
-                IWebElement inventory_item_name = driver.FindElement(inventory_items_name);
-                IWebElement priceValue = driver.FindElement(By.XPath($"//div[@class='item_pricebar']"));
-                if (inventory_item_name.Text.Contains(itemName) && priceValue.Text.Contains(price))
+            {                
+                if (InventoryItemName.Text.Contains(itemName) && priceValue.Text.Contains(price))
                 {
                     flag = true;
                     break;
                 }
             }
-            common.ClickOnElement(driver.FindElement(By.Id("finish")));
+            common.ClickOnElement(btnFinish);
             return flag;
         }
         #endregion

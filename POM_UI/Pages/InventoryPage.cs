@@ -15,11 +15,11 @@ namespace POM_UI.Pages
 
 
         #region UI objects
-        private By inventory_items = By.XPath($"//div[@class='inventory_item']");
-        private By inventory_items_name = By.XPath($"//div[@class='inventory_item_name']");
-
+        private IList<IWebElement> Inventory_items => driver.FindElements(By.ClassName("inventory_item"));
+        private IWebElement Inventory_items_name => driver.FindElement(By.ClassName("inventory_item_name"));       
+        private IWebElement Inventory_item_price => driver.FindElement(By.ClassName("inventory_item_price"));
+        private IWebElement linkShoppingCart => driver.FindElement(By.ClassName("shopping_cart_link"));
         #endregion
-
 
         #region Methods
         //Method to Select product based on text provided
@@ -27,13 +27,12 @@ namespace POM_UI.Pages
         public string SelectItemforShopping(string text)
         {           
             string price_bar = "";
-            IList<IWebElement> list = driver.FindElements(inventory_items);
+            IList<IWebElement> list = Inventory_items;
             foreach (IWebElement ls in list)
-            {
-                IWebElement inventory_item_name = driver.FindElement(inventory_items_name);
-                if (inventory_item_name.Text.Contains(text))
+            {                
+                if (Inventory_items_name.Text.Contains(text))
                 {
-                    price_bar = inventory_item_name.FindElement(By.XPath($"//div[@class='inventory_item_price']")).Text;
+                    price_bar = Inventory_item_price.Text;
                     IWebElement addToCart = driver.FindElement(By.XPath($"//button[@id='{"add-to-cart-" + text.ToLower().Replace(" ","-")}']"));
                     common.ClickOnElement(addToCart);
                     break;
@@ -44,7 +43,7 @@ namespace POM_UI.Pages
         //Method to click over Cart
         public void ClickCart()
         {
-            common.ClickOnElement(driver.FindElement(By.XPath($"//a[@class='shopping_cart_link']")));
+            common.ClickOnElement(linkShoppingCart);
         }
         #endregion
 

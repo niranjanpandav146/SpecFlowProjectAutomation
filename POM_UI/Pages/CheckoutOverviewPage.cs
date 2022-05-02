@@ -21,8 +21,8 @@ namespace POM_UI.Pages
         #region UI objects
         private IList<IWebElement> LabelcartItemLabel => driver.FindElements(By.ClassName("cart_item_label"));
         private IWebElement InventoryItemName => driver.FindElement(By.ClassName("inventory_item_name"));
-        private IWebElement priceValue => driver.FindElement(By.ClassName("item_pricebar"));
-        private IWebElement btnFinish => driver.FindElement(By.Id("finish"));
+        private IWebElement PriceValue => driver.FindElement(By.ClassName("item_pricebar"));
+        private IWebElement BtnFinish => driver.FindElement(By.Id("finish"));
         #endregion
 
         #region Methods
@@ -34,13 +34,13 @@ namespace POM_UI.Pages
             IList<IWebElement> list = LabelcartItemLabel;
             foreach (IWebElement ls in list)
             {                
-                if (InventoryItemName.Text.Contains(itemName) && priceValue.Text.Contains(price))
+                if (InventoryItemName.Text.Contains(itemName) && PriceValue.Text.Contains(price))
                 {
                     flag = true;
                     break;
                 }
             }
-            common.ClickOnElement(btnFinish);
+            common.ClickOnElement(BtnFinish);
             return flag;
         }
         #endregion

@@ -18,7 +18,7 @@ namespace POM_UI.Pages
         private IList<IWebElement> Inventory_items => driver.FindElements(By.ClassName("inventory_item"));
         private IWebElement Inventory_items_name => driver.FindElement(By.ClassName("inventory_item_name"));       
         private IWebElement Inventory_item_price => driver.FindElement(By.ClassName("inventory_item_price"));
-        private IWebElement linkShoppingCart => driver.FindElement(By.ClassName("shopping_cart_link"));
+        private IWebElement LinkShoppingCart => driver.FindElement(By.ClassName("shopping_cart_link"));
         #endregion
 
         #region Methods
@@ -43,7 +43,7 @@ namespace POM_UI.Pages
         //Method to click over Cart
         public void ClickCart()
         {
-            common.ClickOnElement(linkShoppingCart);
+            common.ClickOnElement(LinkShoppingCart);
         }
         #endregion
 

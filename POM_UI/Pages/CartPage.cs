@@ -22,8 +22,8 @@ namespace POM_UI.Pages
         
         private IList<IWebElement> Cart_items => driver.FindElements(By.ClassName("cart_item"));
         private IWebElement InventoryItemName => driver.FindElement(By.ClassName("inventory_item_name"));
-        private IWebElement inventory_item_price => driver.FindElement(By.ClassName("inventory_item_price"));
-        private IWebElement buttonCheckout => driver.FindElement(By.Id("checkout"));
+        private IWebElement Inventory_item_price => driver.FindElement(By.ClassName("inventory_item_price"));
+        private IWebElement ButtonCheckout => driver.FindElement(By.Id("checkout"));
         #endregion  
 
         #region Methods
@@ -38,7 +38,7 @@ namespace POM_UI.Pages
             {              
                 if (InventoryItemName.Text.Contains(text))
                 {
-                    cartItemPrice = inventory_item_price.Text;
+                    cartItemPrice = Inventory_item_price.Text;
                     break;
                 }
             }
@@ -48,9 +48,9 @@ namespace POM_UI.Pages
             }
         }
         //Method to click on checkout button
-        public void clickonCheckout()
+        public void ClickonCheckout()
         {
-            common.ClickOnElement(buttonCheckout);
+            common.ClickOnElement(ButtonCheckout);
         }
 
         #endregion

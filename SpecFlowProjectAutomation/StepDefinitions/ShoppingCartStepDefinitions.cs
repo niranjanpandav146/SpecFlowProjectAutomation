@@ -1,10 +1,8 @@
 using OpenQA.Selenium;
 using POM_UI.Pages;
-using System;
-using TechTalk.SpecFlow;
 using SpecFlowProjectAutomation.Drivers;
 using TechTalk.SpecFlow.Assist;
-using AventStack.ExtentReports.Model;
+
 
 namespace SpecFlowProjectAutomation.StepDefinitions
 {
@@ -57,7 +55,7 @@ namespace SpecFlowProjectAutomation.StepDefinitions
             dynamic data = table.CreateDynamicInstance();
             cartpage = new CartPage(driver);
             cartpage.VerifyItemOnCart(data.productName, price);
-            cartpage.clickonCheckout();
+            cartpage.ClickonCheckout();
         }
 
         [Given(@"User enter checkout information")]

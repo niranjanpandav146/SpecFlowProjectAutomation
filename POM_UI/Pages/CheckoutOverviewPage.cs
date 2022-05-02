@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Framework;
+using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,20 +29,28 @@ namespace POM_UI.Pages
         #region Methods
         //Method to Verify user added prodcut and price of product
         //param: itemName = product to check, price = price of product
-        public bool VerifyUserCheckoutOverview(string itemName, string price)
+        public void VerifyUserCheckoutOverview(string itemName, string price)
         {
-            bool flag = false;
-            IList<IWebElement> list = LabelcartItemLabel;
-            foreach (IWebElement ls in list)
-            {                
-                if (InventoryItemName.Text.Contains(itemName) && PriceValue.Text.Contains(price))
+            try
+            {
+                bool flag = false;
+                IList<IWebElement> list = LabelcartItemLabel;
+                foreach (IWebElement ls in list)
                 {
-                    flag = true;
-                    break;
+                    if (InventoryItemName.Text.Contains(itemName) && PriceValue.Text.Contains(price))
+                    {
+                        flag = true;
+                        break;
+                    }
                 }
+                Assert.IsTrue(flag,"Product Verified with Price");
+                common.ClickOnElement(BtnFinish);                
             }
-            common.ClickOnElement(BtnFinish);
-            return flag;
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message,"Unable to Verify User Checkout Overview");
+            }
+            
         }
         #endregion
     }

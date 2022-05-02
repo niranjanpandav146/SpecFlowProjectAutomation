@@ -28,8 +28,15 @@ namespace SpecFlowProjectAutomation.StepDefinitions
         public void GivenUserNavigateToSaucedemoApplication(Table table)
         {
             dynamic data = table.CreateDynamicInstance();
-            driver = _scenarioContext.Get<SeleniumDriver>("SeleniumDriver").setup(data.browserName);
-            driver.Url = data.url; 
+            try
+            {
+                driver = _scenarioContext.Get<SeleniumDriver>("SeleniumDriver").setup(data.browserName);
+                driver.Url = data.url;
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
         }
 
         [Given(@"User login to saucedemo application")]

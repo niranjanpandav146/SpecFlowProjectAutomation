@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Framework;
+using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,20 +33,26 @@ namespace POM_UI.Pages
         //param: text = product to check, price = price of product
         public void VerifyItemOnCart(string text, string price)
         {
-            string cartItemPrice = "";
-            IList<IWebElement> list = Cart_items;
-            foreach (IWebElement ls in list)
-            {              
-                if (InventoryItemName.Text.Contains(text))
-                {
-                    cartItemPrice = Inventory_item_price.Text;
-                    break;
-                }
-            }
-            if (price.Equals(cartItemPrice))
+            try
             {
-                Console.Write("Value Same");
+                string cartItemPrice = "";
+                IList<IWebElement> list = Cart_items;
+                foreach (IWebElement ls in list)
+                {
+                    if (InventoryItemName.Text.Contains(text))
+                    {
+                        cartItemPrice = Inventory_item_price.Text;
+                        break;
+                    }
+                }
+                Assert.AreEqual(price, cartItemPrice,"Product and Price Verified from Cart");               
             }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message,"Product Price Not Verified");
+                throw;
+            }
+
         }
         //Method to click on checkout button
         public void ClickonCheckout()

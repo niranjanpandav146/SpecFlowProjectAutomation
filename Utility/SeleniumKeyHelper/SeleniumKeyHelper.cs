@@ -13,19 +13,43 @@ namespace Utility.SeleniumKeyHelper
         //Param : UI element as type IWebelement
         public void ClickOnElement(IWebElement element)
         {
-            element.Click();
+            try
+            {
+                element.Click();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            
         }
         // Common method to enter text on UI Element 
         //Param : UI element as type IWebelement
         public void EnterTextToElement(IWebElement element,string text)
         {
-            element.SendKeys(text);
+            try
+            {
+                element.SendKeys(text);
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+            
         }
         // Common method to get text on UI Element 
         //Param : UI element as type IWebelement
         public string GetElementText(IWebElement element)
         {
-            return element.Text;
+            try
+            {
+                return element.Text;
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+            
         }      
     }
 }

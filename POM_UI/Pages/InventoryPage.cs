@@ -1,10 +1,4 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Support.PageObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Utility.SeleniumKeyHelper;
 
 namespace POM_UI.Pages
@@ -19,8 +13,15 @@ namespace POM_UI.Pages
             common = new SeleniumKeyHelper();
         }
 
+
+        #region UI objects
         private By inventory_items = By.XPath($"//div[@class='inventory_item']");
-       
+        private By inventory_items_name = By.XPath($"//div[@class='inventory_item_name']");
+
+        #endregion
+
+
+        #region Methods
         //Method to Select product based on text provided
         //param: Text = Prodcut name
         public string SelectItemforShopping(string text)
@@ -29,7 +30,7 @@ namespace POM_UI.Pages
             IList<IWebElement> list = driver.FindElements(inventory_items);
             foreach (IWebElement ls in list)
             {
-                IWebElement inventory_item_name = driver.FindElement(By.XPath($"//div[@class='inventory_item_name']"));
+                IWebElement inventory_item_name = driver.FindElement(inventory_items_name);
                 if (inventory_item_name.Text.Contains(text))
                 {
                     price_bar = inventory_item_name.FindElement(By.XPath($"//div[@class='inventory_item_price']")).Text;
@@ -45,7 +46,7 @@ namespace POM_UI.Pages
         {
             common.ClickOnElement(driver.FindElement(By.XPath($"//a[@class='shopping_cart_link']")));
         }
-
+        #endregion
 
     }
 }

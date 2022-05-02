@@ -17,6 +17,8 @@ namespace POM_UI.Pages
             this.driver = driver;
             common = new SeleniumKeyHelper();
         }
+
+        #region Methods
         //Method to fill user information
         //param: firstName = User's FirstName, lastName = User's LastName , zip = User's Zip
         public void FillUserInformation(string firstName, string lastName, string zip)
@@ -26,5 +28,7 @@ namespace POM_UI.Pages
             common.EnterTextToElement(driver.FindElement(By.Id("postal-code")), zip);
             common.ClickOnElement(driver.FindElement(By.Id("continue")));
         }
+
+        #endregion
     }
 }

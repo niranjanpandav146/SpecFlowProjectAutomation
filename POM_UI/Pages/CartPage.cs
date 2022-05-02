@@ -18,6 +18,8 @@ namespace POM_UI.Pages
             common = new SeleniumKeyHelper();
         }
 
+        #region Methods
+
         //Method to Verify user's cart items
         //param: text = product to check, price = price of product
         public void VerifyItemOnCart(string text, string price)
@@ -43,6 +45,8 @@ namespace POM_UI.Pages
         {
             common.ClickOnElement(driver.FindElement(By.Id("checkout")));
         }
+
+        #endregion
 
     }
 }

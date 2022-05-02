@@ -18,6 +18,7 @@ namespace POM_UI.Pages
             common = new SeleniumKeyHelper();
         }
 
+        #region Methods
         //Method to Verify user added prodcut and price of product
         //param: itemName = product to check, price = price of product
         public bool VerifyUserCheckoutOverview(string itemName, string price)
@@ -37,5 +38,6 @@ namespace POM_UI.Pages
             common.ClickOnElement(driver.FindElement(By.Id("finish")));
             return flag;
         }
+        #endregion
     }
 }

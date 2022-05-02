@@ -18,6 +18,11 @@ namespace POM_UI.Pages
             common = new SeleniumKeyHelper();
         }
 
+        #region UI Objects
+        private By cart_items = By.XPath($"//div[@class='cart_item']");        
+        private By inventory_item_price = By.XPath($"//div[@class='inventory_item_price']");
+        #endregion  
+
         #region Methods
 
         //Method to Verify user's cart items
@@ -25,13 +30,13 @@ namespace POM_UI.Pages
         public void VerifyItemOnCart(string text, string price)
         {
             string cartItemPrice = "";
-            IList<IWebElement> list = driver.FindElements(By.XPath($"//div[@class='cart_item']"));
+            IList<IWebElement> list = driver.FindElements(cart_items);
             foreach (IWebElement ls in list)
             {
                 IWebElement inventory_item_name = driver.FindElement(By.XPath($"//div[@class='inventory_item_name']"));
                 if (inventory_item_name.Text.Contains(text))
                 {
-                    cartItemPrice = inventory_item_name.FindElement(By.XPath($"//div[@class='inventory_item_price']")).Text;
+                    cartItemPrice = inventory_item_name.FindElement(inventory_item_price).Text;
                     break;
                 }
             }

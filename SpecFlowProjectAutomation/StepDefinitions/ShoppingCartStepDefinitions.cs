@@ -27,11 +27,11 @@ namespace SpecFlowProjectAutomation.StepDefinitions
         }
 
         [Given(@"User navigate to saucedemo application")]
-        public void GivenUserNavigateToSaucedemoApplication()
+        public void GivenUserNavigateToSaucedemoApplication(Table table)
         {
-            driver = _scenarioContext.Get<SeleniumDriver>("SeleniumDriver").setup();
-            driver.Manage().Window.Maximize();
-            driver.Url = "https://www.saucedemo.com/";
+            dynamic data = table.CreateDynamicInstance();
+            driver = _scenarioContext.Get<SeleniumDriver>("SeleniumDriver").setup(data.browserName);
+            driver.Url = data.url; 
         }
 
         [Given(@"User login to saucedemo application")]
@@ -72,7 +72,7 @@ namespace SpecFlowProjectAutomation.StepDefinitions
         public void ThenUserCheckForProductAndPriceInCheckoutOverview(Table table)
         {
             dynamic data = table.CreateDynamicInstance();
-            checkoutOverviewPage =new CheckoutOverviewPage(driver);
+            checkoutOverviewPage = new CheckoutOverviewPage(driver);
             checkoutOverviewPage.VerifyUserCheckoutOverview(data.productName, price);
         }
     }

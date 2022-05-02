@@ -4,7 +4,9 @@ Shopping Cart Feature
 
 @regression
 Scenario Outline: Consumer can add a book to shopping cart from wish list
-	Given User navigate to saucedemo application	
+	Given User navigate to saucedemo application
+	| url                       | browserName |
+	| https://www.saucedemo.com | firefox     |
 	And User login to saucedemo application
 	| userName   | password   |
 	| <userName> | <password> |

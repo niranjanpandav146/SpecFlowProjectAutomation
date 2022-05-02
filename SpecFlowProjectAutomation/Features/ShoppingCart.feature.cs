@@ -114,49 +114,55 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 7
- testRunner.Given("User navigate to saucedemo application", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
                 TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
-                            "userName",
-                            "password"});
+                            "url",
+                            "browserName"});
                 table1.AddRow(new string[] {
-                            string.Format("{0}", userName),
-                            string.Format("{0}", password)});
-#line 8
- testRunner.And("User login to saucedemo application", ((string)(null)), table1, "And ");
+                            "https://www.saucedemo.com",
+                            "firefox"});
+#line 7
+ testRunner.Given("User navigate to saucedemo application", ((string)(null)), table1, "Given ");
 #line hidden
                 TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
-                            "productName"});
+                            "userName",
+                            "password"});
                 table2.AddRow(new string[] {
-                            string.Format("{0}", productName)});
-#line 11
- testRunner.And("User add product to shopping cart", ((string)(null)), table2, "And ");
+                            string.Format("{0}", userName),
+                            string.Format("{0}", password)});
+#line 10
+ testRunner.And("User login to saucedemo application", ((string)(null)), table2, "And ");
 #line hidden
                 TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
                             "productName"});
                 table3.AddRow(new string[] {
                             string.Format("{0}", productName)});
-#line 14
- testRunner.And("User open my shopping cart to check product price", ((string)(null)), table3, "And ");
+#line 13
+ testRunner.And("User add product to shopping cart", ((string)(null)), table3, "And ");
 #line hidden
                 TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
+                            "productName"});
+                table4.AddRow(new string[] {
+                            string.Format("{0}", productName)});
+#line 16
+ testRunner.And("User open my shopping cart to check product price", ((string)(null)), table4, "And ");
+#line hidden
+                TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
                             "firstName",
                             "lastName",
                             "postalCode"});
-                table4.AddRow(new string[] {
+                table5.AddRow(new string[] {
                             string.Format("{0}", firstName),
                             string.Format("{0}", lastName),
                             string.Format("{0}", postalCode)});
-#line 17
- testRunner.And("User enter checkout information", ((string)(null)), table4, "And ");
+#line 19
+ testRunner.And("User enter checkout information", ((string)(null)), table5, "And ");
 #line hidden
-                TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
                             "productName"});
-                table5.AddRow(new string[] {
+                table6.AddRow(new string[] {
                             string.Format("{0}", productName)});
-#line 20
- testRunner.Then("User check for product and price in checkout overview", ((string)(null)), table5, "Then ");
+#line 22
+ testRunner.Then("User check for product and price in checkout overview", ((string)(null)), table6, "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

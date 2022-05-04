@@ -1,24 +1,17 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
+using SpecFlowProjectAutomation.Base;
 using Utility.SeleniumKeyHelper;
 
 namespace POM_UI.Pages
 {
-    public class InventoryPage
-    {
-        IWebDriver driver;
-        SeleniumKeyHelper common;
-        public InventoryPage(IWebDriver driver)
-        {
-            this.driver = driver;
-            common = new SeleniumKeyHelper();
-        }
-
-        #region UI objects
-        private IList<IWebElement> Inventory_items => driver.FindElements(By.ClassName("inventory_item"));
-        private IWebElement Inventory_items_name => driver.FindElement(By.ClassName("inventory_item_name"));       
-        private IWebElement Inventory_item_price => driver.FindElement(By.ClassName("inventory_item_price"));
-        private IWebElement LinkShoppingCart => driver.FindElement(By.ClassName("shopping_cart_link"));
+    public class InventoryPage : BasePage
+    {  
+        #region UI Objects
+        private IList<IWebElement> inventoryItems => DriverContext.Driver.FindElements(By.ClassName("inventory_item"));
+        private IWebElement inventoryItemsName => DriverContext.Driver.FindElement(By.ClassName("inventory_item_name"));       
+        private IWebElement inventoryItemPrice => DriverContext.Driver.FindElement(By.ClassName("inventory_item_price"));
+        private IWebElement linkShoppingCart => DriverContext.Driver.FindElement(By.ClassName("shopping_cart_link"));
         #endregion
 
         #region Methods
@@ -26,34 +19,40 @@ namespace POM_UI.Pages
         //param: Text = Prodcut name
         public string SelectItemforShopping(string text)
         {
+            string price_bar = "";
             try
-            {
-                string price_bar = "";               
-                IList<IWebElement> list = Inventory_items;
+            {                
+                IList<IWebElement> list = inventoryItems;
                 foreach (IWebElement ls in list)
                 {
-                    if (Inventory_items_name.Text.Contains(text))
+                    if (inventoryItemsName.Text.Contains(text))
                     {
-                        price_bar = Inventory_item_price.Text;
-                        IWebElement addToCart = driver.FindElement(By.XPath($"//button[@id='{"add-to-cart-" + text.ToLower().Replace(" ", "-")}']"));
-                        common.ClickOnElement(addToCart);                      
+                        price_bar = inventoryItemPrice.Text;
+                        IWebElement addToCart = DriverContext.Driver.FindElement(By.XPath($"//button[@id='{"add-to-cart-" + text.ToLower().Replace(" ", "-")}']"));
+                        SeleniumKeyHelper.ClickOnElement(addToCart);                      
                         break;
-                    }
-                    else { Assert.Fail("Product Not Available in Inventory"); }
-                }
-                return price_bar;
+                    }                
+                }               
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Assert.Fail(ex.Message,"Unable to Select Product from Inventory");
-                throw;
+                Assert.Fail("Unable to Select Product from Inventory");              
             }
-            
+            return price_bar;
+
         }
         //Method to click over Cart
-        public void ClickCart()
+        public CartPage ClickCart()
         {
-            common.ClickOnElement(LinkShoppingCart);
+            try
+            {
+                SeleniumKeyHelper.ClickOnElement(linkShoppingCart);
+            }
+            catch(Exception)
+            {
+                Assert.Fail("Unable to Click on Cart");
+            }
+            return GetInstance<CartPage>();
         }
         #endregion
 

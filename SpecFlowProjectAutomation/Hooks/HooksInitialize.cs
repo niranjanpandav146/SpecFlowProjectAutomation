@@ -1,9 +1,8 @@
 ﻿using AventStack.ExtentReports;
 using AventStack.ExtentReports.Gherkin.Model;
 using AventStack.ExtentReports.Reporter;
-using OpenQA.Selenium;
-using SpecFlowProjectAutomation.Drivers;
-using TechTalk.SpecFlow;
+using SpecFlowProjectAutomation.Base;
+
 
 namespace SpecFlowProjectAutomation.Hooks
 {
@@ -16,7 +15,7 @@ namespace SpecFlowProjectAutomation.Hooks
         public static string ReportPath;
 
         [BeforeTestRun]
-        public static void BeforeTestRun()
+        public static void TestInitialize()
         {            
             string path = AppDomain.CurrentDomain.BaseDirectory.Replace("\\bin\\Debug", "");
             string reportpath = path + "UIReport\\UITestsindex.html";
@@ -32,42 +31,24 @@ namespace SpecFlowProjectAutomation.Hooks
             //Create dynamic feature name
             featureName = extent.CreateTest<Feature>(FeatureContext.Current.FeatureInfo.Title);
             Console.WriteLine("BeforeFeature");
-        }
-
-        // For additional details on SpecFlow hooks see http://go.specflow.org/doc-hooks
-
-        private readonly ScenarioContext _scenarioContext;
-
-        public HooksInitialize(ScenarioContext scenarioContext) => _scenarioContext = scenarioContext;
+        }        
 
         [BeforeScenario]
         public void BeforeScenario()
-        {
-            SeleniumDriver seleniumDriver = new SeleniumDriver(_scenarioContext);
-            _scenarioContext.Set(seleniumDriver, "SeleniumDriver");
+        {            
             Console.WriteLine("BeforeScenario");
-            scenario = featureName.CreateNode<Scenario>(ScenarioContext.Current.ScenarioInfo.Title);
-
-
-            // Example of filtering hooks using tags. (in this case, this 'before scenario' hook will execute if the feature/scenario contains the tag '@tag1')
-            // See https://docs.specflow.org/projects/specflow/en/latest/Bindings/Hooks.html?highlight=hooks#tag-scoping
-
-            //TODO: implement logic that has to run before executing each scenario
-        }
-
-        //[BeforeScenario(Order = 1)]
-        //public void FirstBeforeScenario()
-        //{
-        //    // Example of ordering the execution of hooks
-        //    // See https://docs.specflow.org/projects/specflow/en/latest/Bindings/Hooks.html?highlight=order#hook-execution-order
-
-        //    //TODO: implement logic that has to run before executing each scenario
-        //}
+            scenario = featureName.CreateNode<Scenario>(ScenarioContext.Current.ScenarioInfo.Title);           
+        }       
 
         [AfterStep]
-        public void InsertReportingSteps()
+        public void AfterEachStep()
         {
+            var stepName = ScenarioContext.Current.StepContext.StepInfo.Text;
+            var featureName = FeatureContext.Current.FeatureInfo.Title;
+            var scenarioName = ScenarioContext.Current.ScenarioInfo.Title;
+
             var stepType = ScenarioStepContext.Current.StepInfo.StepDefinitionType.ToString();
+
             if (ScenarioContext.Current.TestError == null)
             {
                 if (stepType == "Given")
@@ -99,22 +80,12 @@ namespace SpecFlowProjectAutomation.Hooks
             }
         }
 
-
         [AfterScenario]
         public void AfterScenario()
         {
             Console.WriteLine("Quiting Selenium Driver");
-            _scenarioContext.Get<IWebDriver>("WebDriver").Quit();
-            //TODO: implement logic that has to run after executing each scenario
-        }
-
-        [AfterTestRun]
-        public static void AfterTestRun()
-        {   
-            //kill the browser
-            //Flush report once test completes
-            extent.Flush();
-            //kill the browser
-        }
+            DriverContext.Driver.Quit();
+            extent.Flush();         
+        }       
     }
 }

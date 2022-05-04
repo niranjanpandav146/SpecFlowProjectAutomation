@@ -1,63 +1,51 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SpecFlowProjectAutomation.Base;
 using Utility.SeleniumKeyHelper;
 
 namespace POM_UI.Pages
 {
-    public class CartPage
-    {
-        IWebDriver driver;
-        SeleniumKeyHelper common;
-        public CartPage(IWebDriver driver)
-        {
-            this.driver = driver;
-            common = new SeleniumKeyHelper();
-        }
-
+    public class CartPage : BasePage
+    {       
         #region UI Objects
-        
-        private IList<IWebElement> Cart_items => driver.FindElements(By.ClassName("cart_item"));
-        private IWebElement InventoryItemName => driver.FindElement(By.ClassName("inventory_item_name"));
-        private IWebElement Inventory_item_price => driver.FindElement(By.ClassName("inventory_item_price"));
-        private IWebElement ButtonCheckout => driver.FindElement(By.Id("checkout"));
+        private IList<IWebElement> cartItems => DriverContext.Driver.FindElements(By.ClassName("cart_item"));
+        private IWebElement inventoryItemName => DriverContext.Driver.FindElement(By.ClassName("inventory_item_name"));
+        private IWebElement inventory_item_price => DriverContext.Driver.FindElement(By.ClassName("inventory_item_price"));
+        private IWebElement buttonCheckout => DriverContext.Driver.FindElement(By.Id("checkout"));
         #endregion  
 
         #region Methods
 
         //Method to Verify user's cart items
         //param: text = product to check, price = price of product
-        public void VerifyItemOnCart(string text, string price)
+        public void VerifyItemOnCart(string productName, string price)
         {
             try
             {
                 string cartItemPrice = "";
-                IList<IWebElement> list = Cart_items;
+                IList<IWebElement> list = cartItems;
                 foreach (IWebElement ls in list)
                 {
-                    if (InventoryItemName.Text.Contains(text))
+                    if (inventoryItemName.Text.Contains(productName))
                     {
-                        cartItemPrice = Inventory_item_price.Text;
+                        cartItemPrice = inventory_item_price.Text;
                         break;
                     }
                 }
-                Assert.AreEqual(price, cartItemPrice,"Product and Price Verified from Cart");               
+                Assert.That(price, Is.EqualTo(cartItemPrice));
+                //Assert.eq(price, cartItemPrice);               
             }
             catch (Exception ex)
             {
-                Assert.Fail(ex.Message,"Product Price Not Verified");
-                throw;
+                Assert.Fail(ex.Message,"Product Price Not Verified");             
             }
 
         }
         //Method to click on checkout button
-        public void ClickonCheckout()
+        public CheckoutUserInformationPage ClickonCheckout()
         {
-            common.ClickOnElement(ButtonCheckout);
+            SeleniumKeyHelper.ClickOnElement(buttonCheckout);
+            return GetInstance<CheckoutUserInformationPage>();
         }
 
         #endregion

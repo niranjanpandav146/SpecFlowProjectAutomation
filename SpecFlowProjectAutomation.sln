@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APIFramework", "APIReusable
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecFlowAPITests", "SpecFlowAPITests\SpecFlowAPITests.csproj", "{F53035CA-7879-4197-B298-2B1F57FF8055}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestAPIAutomationBL", "RestAPIAutomationBL\RestAPIAutomationBL.csproj", "{F43EB13D-41D2-497C-BFA6-CF52679575EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestAPIAutomationBL", "RestAPIAutomationBL\RestAPIAutomationBL.csproj", "{F43EB13D-41D2-497C-BFA6-CF52679575EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

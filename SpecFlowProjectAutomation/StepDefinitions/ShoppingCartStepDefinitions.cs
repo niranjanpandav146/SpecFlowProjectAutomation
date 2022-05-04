@@ -1,28 +1,14 @@
-using OpenQA.Selenium;
 using POM_UI.Pages;
-using SpecFlowProjectAutomation.Drivers;
+using SpecFlowProjectAutomation.Base;
 using TechTalk.SpecFlow.Assist;
 
 
 namespace SpecFlowProjectAutomation.StepDefinitions
 {
     [Binding]
-    public class ShoppingCartStepDefinitions
-    {
-        IWebDriver driver;
-        private readonly ScenarioContext _scenarioContext;        
-        LoginPage loginpage;
-        InventoryPage inventorypage;
-        CartPage cartpage;
-        CheckoutUserInformationPage checkoutuserinfopage;
-        CheckoutOverviewPage checkoutOverviewPage;
+    public class ShoppingCartStepDefinitions :BaseStep
+    {      
         public string price = "";
-      
-
-        public ShoppingCartStepDefinitions(ScenarioContext scenarioContext)
-        {
-            _scenarioContext = scenarioContext;
-        }
 
         [Given(@"User navigate to saucedemo application")]
         public void GivenUserNavigateToSaucedemoApplication(Table table)
@@ -30,8 +16,8 @@ namespace SpecFlowProjectAutomation.StepDefinitions
             dynamic data = table.CreateDynamicInstance();
             try
             {
-                driver = _scenarioContext.Get<SeleniumDriver>("SeleniumDriver").setup(data.browserName);
-                driver.Url = data.url;
+                OpenBrowser(data.browserName);
+                NavigateSite(data.url);                
             }
             catch(Exception ex)
             {
@@ -41,44 +27,40 @@ namespace SpecFlowProjectAutomation.StepDefinitions
 
         [Given(@"User login to saucedemo application")]
         public void GivenUserLoginToSaucedemoApplication(Table table)
-        {   
-                loginpage = new LoginPage(driver);
-                dynamic data = table.CreateDynamicInstance();
-                loginpage.LoginToApplication("user-name", "password", "submit", data.userName, data.password);         
+        {
+            dynamic data = table.CreateDynamicInstance();            
+            CurrentPage = GetInstance<LoginPage>();
+            CurrentPage =CurrentPage.As<LoginPage>().LoginToApplication("user-name","password","submit", data.userName, data.password);            
         }
 
         [Given(@"User add product to shopping cart")]
         public void GivenUserAddProductToShoppingCart(Table table)
         {
             dynamic data = table.CreateDynamicInstance();
-            inventorypage =new InventoryPage(driver);
-            price = inventorypage.SelectItemforShopping(data.productName);
-            inventorypage.ClickCart();
+            price=CurrentPage.As<InventoryPage>().SelectItemforShopping(data.productName);
+            CurrentPage=CurrentPage.As<InventoryPage>().ClickCart();
         }
 
         [Given(@"User open my shopping cart to check product price")]
         public void GivenUserOpenMyShoppingCartToCheckProductPrice(Table table)
         {
             dynamic data = table.CreateDynamicInstance();
-            cartpage = new CartPage(driver);
-            cartpage.VerifyItemOnCart(data.productName, price);
-            cartpage.ClickonCheckout();
+            CurrentPage.As<CartPage>().VerifyItemOnCart(data.productName, price);
+            CurrentPage =CurrentPage.As<CartPage>().ClickonCheckout();
         }
 
         [Given(@"User enter checkout information")]
         public void GivenUserEnterCheckoutInformation(Table table)
         {
             dynamic data = table.CreateDynamicInstance();
-            checkoutuserinfopage = new CheckoutUserInformationPage(driver);
-            checkoutuserinfopage.FillUserInformation(data.firstName, data.lastName,"411057");
+            CurrentPage = CurrentPage.As<CheckoutUserInformationPage>().FillUserInformation(data.firstName, data.lastName,"411057");
         }
 
         [Then(@"User check for product and price in checkout overview")]
         public void ThenUserCheckForProductAndPriceInCheckoutOverview(Table table)
         {
             dynamic data = table.CreateDynamicInstance();
-            checkoutOverviewPage = new CheckoutOverviewPage(driver);
-            checkoutOverviewPage.VerifyUserCheckoutOverview(data.productName, price);
+            CurrentPage.As<CheckoutOverviewPage>().VerifyUserCheckoutOverview(data.productName, price);
         }
     }
 }

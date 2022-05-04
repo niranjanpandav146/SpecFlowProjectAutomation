@@ -1,17 +1,13 @@
-﻿using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NUnit.Framework;
+using OpenQA.Selenium;
 
 namespace Utility.SeleniumKeyHelper
 {
-    public class SeleniumKeyHelper
+    public static class SeleniumKeyHelper
     {
         // Common method to click on UI Element 
         //Param : UI element as type IWebelement
-        public void ClickOnElement(IWebElement element)
+        public static void ClickOnElement(IWebElement element)
         {
             try
             {
@@ -19,37 +15,37 @@ namespace Utility.SeleniumKeyHelper
             }
             catch (Exception ex)
             {
-                throw;
+                Assert.Fail("Element Not Clicked" + ex.Message);
             }
             
         }
         // Common method to enter text on UI Element 
         //Param : UI element as type IWebelement
-        public void EnterTextToElement(IWebElement element,string text)
+        public static void EnterTextToElement(IWebElement element,string text)
         {
             try
             {
                 element.SendKeys(text);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                throw;
+                Assert.Fail("Element Input Error " + ex.Message);
             }
-            
         }
         // Common method to get text on UI Element 
         //Param : UI element as type IWebelement
-        public string GetElementText(IWebElement element)
+        public static string GetElementText(IWebElement element)
         {
+            string elementText = "";
             try
             {
-                return element.Text;
+                elementText= element.Text;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                throw;
+                Assert.Fail("Element Text Error " + ex.Message);
             }
-            
+            return elementText;
         }      
     }
 }
